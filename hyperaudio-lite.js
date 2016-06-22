@@ -78,7 +78,9 @@ var hyperaudiolite = (function () {
 
         // TODO: look for a better way of doing this
         var strayActive = transcript.getElementsByClassName('active')[0];
-        strayActive.classList.remove("active");
+        if (typeof(strayActive) != 'undefined') {
+          strayActive.classList.remove("active");
+        }
 
         // word time is in the future - set the previous word as active.
         words[i-1].classList.add("active");
@@ -96,10 +98,12 @@ var hyperaudiolite = (function () {
 
         if (currentParaIndex != paraIndex) {
 
-          Velocity(words[i].parentNode, "scroll", { 
-            duration: 800,
-            delay: 0
-          });
+          if (typeof(Velocity) == 'function') {
+            Velocity(words[i].parentNode, "scroll", { 
+              duration: 800,
+              delay: 0
+            });
+          }
 
           paraIndex = currentParaIndex;
         }
