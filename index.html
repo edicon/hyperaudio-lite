@@ -19,8 +19,10 @@
     }
 
   </style>
+  <script src="remy-polyfill-classList.js"></script>
   <script src="hyperaudio-lite.js"></script>
   <script src="velocity-min.js"></script>
+  <script src="reqwest.js"></script>
 </head>
 <body>
 
@@ -28,7 +30,10 @@
 </div>
 <audio id="hyperplayer" src="http://hyperaud.io/lab/halite/interview.mp3" type="audio/mpeg" controls></audio>
 <script>
-hyperaudiolite.loadTranscript('transcriptparas.html');
+reqwest('transcriptparas-wrapped.html', function (resp) {
+  document.getElementById('hypertranscript').innerHTML = resp;
+  hyperaudiolite.init('hypertranscript', 'hyperplayer');
+});
 </script>
 </body>
 </html>

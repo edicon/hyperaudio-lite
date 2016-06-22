@@ -5,16 +5,8 @@ var hyperaudiolite = (function () {
     words, 
     player,
     paraIndex,
-    start,
     end;
   
-  function getParameter(name) {
-    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-        results = regex.exec(location.search);
-    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
-  }
-
   function init(mediaElementId) {
     words = transcript.getElementsByTagName('a');
     paras = transcript.getElementsByTagName('p');
@@ -25,16 +17,26 @@ var hyperaudiolite = (function () {
     transcript.addEventListener("click", setPlayHead, false);
     player.addEventListener("timeupdate", checkPlayHead, false);
     
-    //check for queryString params
-
-    start = getParameter('s');
-
-    if (!isNaN(parseFloat(start))) {
-      player.currentTime = start/10;
-      player.play();      
+    var hashes = window.location.hash.substring(1).split('&');
+    var times = {};
+    for (i=0; i<hashes.length; i++) {
+      var x = hashes[i].split('=');
+      var y = parseFloat(x[1]);
+      if (!isNaN(y)) {
+        times[x[0]] = x[1];
+      }
     }
-
-    end = parseFloat(getParameter('d')) + parseFloat(start);
+    
+    if (times['start']) {
+      if (times['end']) {
+        if (times['end'] > times['start']) {
+          end = times['end'];
+        }
+      }
+      player.currentTime = times['start'];
+      player.play();
+    }
+    
   }
 
   function setPlayHead(e) {
@@ -53,7 +55,7 @@ var hyperaudiolite = (function () {
     
     //check for end time of shared piece
 
-    if (end && (end/10 < player.currentTime)) {
+    if (end && (end < player.currentTime)) {
       player.pause();
       end = null;
     }
@@ -95,7 +97,6 @@ var hyperaudiolite = (function () {
         if (currentParaIndex != paraIndex) {
 
           Velocity(words[i].parentNode, "scroll", { 
-            container: hypertranscript,
             duration: 800,
             delay: 0
           });
@@ -111,37 +112,6 @@ var hyperaudiolite = (function () {
   hal.init = function(transcriptId, mediaElementId) {
     transcript = document.getElementById(transcriptId);
     init(mediaElementId);
-  }
-
-  hal.loadTranscript = function(url) {
-    var xmlhttp;
-
-    if (window.XMLHttpRequest) {
-      // code for IE7+, Firefox, Chrome, Opera, Safari
-      xmlhttp = new XMLHttpRequest();
-    } else {
-      // code for IE6, IE5
-      xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-    }
-
-    xmlhttp.onreadystatechange = function() {
-      if (xmlhttp.readyState == 4 ) {
-        if(xmlhttp.status == 200){
-          transcript = document.getElementById("hypertranscript");
-          transcript.innerHTML = xmlhttp.responseText;
-          init();
-        }
-        else if(xmlhttp.status == 400) {
-          alert('There was an error 400')
-        }
-        else {
-          alert('something else other than 200 was returned')
-        }
-      }
-    }
-
-    xmlhttp.open("GET", url, true);
-    xmlhttp.send();
   }
  
   return hal;
