@@ -7,7 +7,7 @@ Lightweight JavaScript for viewing Hypertranscripts
 
 This viewer assumes you have a transcript container element containing `<p>` elements containing words wrapped in `<a data-m="12345">` elements.  The `data-m` value there is a start time within the media file in milliseconds, which is typically what you get from processing services, even though JavaScript and HTML5 work in seconds for this.
 
-This viewer also assumes you have CSS defining an `active` class for your `p` and `a` elements, which unintuitively define what those elements look like before their words have been reached in the media (e.g. if the transcript is greyed out normally, and only becomes visible once the words are being said or have already been said, the grey color is your `active` class).
+This viewer also assumes you have CSS defining an `active` class for your `p` and `a` elements, which unintuitively defines what those elements look like before their words have been reached in the media (e.g. if the transcript is greyed out normally, and only becomes visible once the words are being said or have already been said, the grey color is your `active` class).
 
 Given those things, you include `hyperaudio-lite.js`, you init it after your transcript has loaded with the names of your transcript and media elements, and as the media plays, the transcript will update.  The minimum serviceable HTML looks like this:
 
@@ -53,13 +53,16 @@ hyperaudiolite.init('transcript', 'interview');
 </html>
 ```
 
-The index.html included in the repo is more complicated.  There's `remy-polyfill-classList.js`, I guess in case you're a browser without classList support but with HTML5 audio, from https://github.com/remy/polyfills, licensed MIT.  There's `velocity-min.js`, to support auto-scrolling the transcript, from https://github.com/julianshapiro/velocity, licensed MIT.  And there's `reqwest.js`, to load a hypertranscript over XMLHTTPRequest, replacing code originally included in `hyperaudio-lite.js`, but which didn't seem in the spirit of "light", from https://github.com/ded/reqwest, licensed MIT.
+The `index.html` included in the repo is more complicated:
+* There's `remy-polyfill-classList.js`, I guess in case you're a browser without classList support but with HTML5 audio, from https://github.com/remy/polyfills, licensed MIT.
+* There's `velocity-min.js`, to support auto-scrolling the transcript, from https://github.com/julianshapiro/velocity, licensed MIT.
+* And there's `reqwest.js`, to load a hypertranscript over XMLHTTPRequest, replacing code originally included in `hyperaudio-lite.js`, but which didn't seem in the spirit of "light", from https://github.com/ded/reqwest, licensed MIT.
 
 ## Changes in this repo
 
 * Made Velocity optional
 * Replaced the XMLHTTPRequest transcript loader with an external library
-* Swapped the query string start/end parameters for fragment start/end parameters, which allow a static hyperaudio transcript to be hosted on an object store
+* Swapped the query string start/duration parameters for fragment start/end parameters, which allow a static hyperaudio transcript to be hosted on an object store
   * Specify `#start=X`, where X is a value in seconds, to skip to a portion of the media
   * Specify `#start=X&end=Y`, where X and Y are values in seconds, to excerpt a portion of the media
 * Fixed an issue when the media file file was longer than the transcript
