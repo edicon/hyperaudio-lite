@@ -82,5 +82,7 @@ There isn't anything out-of-the-box, but I have concerns about the performance o
 * http://stackoverflow.com/questions/10743683/synchronize-and-highlight-html-text-to-audio
 * http://happyworm.com/blog/2010/12/05/drumbeat-demo-html5-audio-text-sync/
 * https://gist.github.com/maboa/5396358
+  * https://gist.github.com/maboa/5387390
   * http://happyworm.com/blog/2011/05/04/further-experimentation-with-hyper-audio/
   * https://github.com/maboa/hyperaudiopad/blob/master/js/popcorn.transcript.js
+* https://gist.github.com/maboa/5397195
