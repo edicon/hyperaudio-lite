@@ -70,3 +70,15 @@ The `index.html` included in the repo is more complicated:
 ## A note on testing
 
 Seeking within media files requires an HTTP server that supports range requests.  If you're testing with `python -m SimpleHTTPServer`, it will fail intermittently.  https://github.com/smgoller/rangehttpserver supports range requests and can be used instead.
+
+## Alternatives
+
+There isn't anything out-of-the-box, but I have concerns about the performance of this code with large transcripts, so you might consider rolling your own using Popcorn.js or another alternative:
+
+* The main [hyperaud.io](http://hyperaud.io/) site has had email problems resulting in no way to create new accounts or recover old ones for quite some time, now.  Its [hyperaudio.js](https://github.com/hyperaudio/hyperaudio-pad) assumes transcripts and media content served from an API server in an undocumented JSON format, and assumes integrated editing, remixing, and playback functionality, without providing a simple way to construct a lightweight viewer.  Many of the third-party hypertranscript examples hosted use older or different sources, but you might be able to repurpose the main Hyperaudio Pad JS.
+* http://johndyer.name/html5-audio-karoke-a-javascript-audio-text-aligner/
+* https://www.codepunker.com/blog/sync-audio-with-text-using-javascript
+* https://github.com/westonruter/html5-audio-read-along
+* http://stackoverflow.com/questions/10743683/synchronize-and-highlight-html-text-to-audio
+* http://happyworm.com/blog/2010/12/05/drumbeat-demo-html5-audio-text-sync/
+* https://gist.github.com/maboa/5396358
