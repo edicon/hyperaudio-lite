@@ -58,6 +58,8 @@ The `index.html` included in the repo is more complicated:
 * There's `velocity-min.js`, to support auto-scrolling the transcript, from https://github.com/julianshapiro/velocity, licensed MIT.
 * And there's `reqwest.js`, to load a hypertranscript over XMLHTTPRequest, replacing code originally included in `hyperaudio-lite.js`, but which didn't seem in the spirit of "light", from https://github.com/ded/reqwest, licensed MIT.
 
+I've successfully used JoshData's `Aligner.java` to generate transcript timings using CMU Sphinx: https://github.com/JoshData/cmusphinx-alignment-example
+
 ## Changes in this repo
 
 * Made Velocity optional
