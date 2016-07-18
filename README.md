@@ -25,7 +25,7 @@ That's it.  No scrolling, no excerpting, no media fragments, no restrictions on 
 
 (There's some initialization code that assumes groups of elements with `data-m` attributes are ultimately wrapped in `<p>`, `<figure>`, or `<ul>` elements, but it's for a future potential optimization and doesn't currently do anything.)
 
-This has been tested and works reliably on media files lasting tens of minutes and transcripts with thousands of words.  This code is currently in production use.
+This has been tested and works reliably on media files lasting tens of minutes and transcripts with thousands of words.  This code is currently in production use at <http://vitor.io/uxr101>.
 
 The minimum serviceable HTML looks like this:
 
