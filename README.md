@@ -69,9 +69,14 @@ There is absolutely no polyfilling or browser feature testing being done.  `quer
 
 I've successfully used JoshData's `Aligner.java` to generate transcript timings using CMU Sphinx: https://github.com/JoshData/cmusphinx-alignment-example
 
+## Custom playback controls
+
+Long transcripts, where the user will have to scroll away from the media player, will require either a custom media player or custom media player controls, so the user can continue to access the playback controls.
+
+`hyperaudio-controls.html` documents an example of custom controls.  It includes additional CSS, JS, inline SVG, and cursor files to the minimal HTML listed above.  Clicking anywhere in the whitespace of the page toggles play and pause, and shows an animation.  Read and unread words show an appropriate rewind or fast-forward cursor.
+
 ## Future work
 
-- Adding optional playback controls
 - Adding auto-scrolling through Velocity.js
 - Adding media fragments support
 - Adding an example where a large transcript gets remotely loaded via JavaScript
@@ -100,12 +105,20 @@ There isn't anything else that's this flexible out-of-the-box, but here are some
   * https://github.com/maboa/hyperaudiopad/blob/master/js/popcorn.transcript.js
 * https://gist.github.com/maboa/5397195
 
-## Public domain
+## Original work dedicated to the public domain
 
 hyperaudio-lite - lightweight JavaScript for presenting hypertranscripts
+
+`README.md`, `hyperaudio-lite.js`, `hyperaudio-controls.js`, `hyperaudio-controls.css`
 
 Written in 2016 by [Vitorio Miliano](http://vitor.io/).
 
 To the extent possible under law, the author has dedicated all copyright and related and neighboring rights to this software to the public domain worldwide.  This software is distributed without any warranty.
 
 You should have received a copy of the CC0 Public Domain Dedication along with this software.  If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
+
+## Third party files
+
+- `hyperaudio-controls.html` based on the original hyperaudio-lite sample files, licensed MIT
+  - Inline SVG for the play/pause animations from Material icons, licensed Apache
+- `hyperaudio-controls-*.cur` cursors based on Font Awesome and Material icons, licensed SIL OFL and Apache
