@@ -1,122 +1,75 @@
 var hyperaudiolite = (function () {
   
-  var hal = {}, 
-    transcript, 
-    words, 
+  var hal = {},
+    transcriptId,
+    transcript,
+    playerId,
     player,
-    paraIndex,
-    end;
+    melarr = [];
   
-  function init(mediaElementId) {
-    words = transcript.getElementsByTagName('a');
-    paras = transcript.getElementsByTagName('p');
-    player = document.getElementById(mediaElementId);
-    paraIndex = 0;
-    words[0].classList.add("active");
-    paras[0].classList.add("active");
-    transcript.addEventListener("click", setPlayHead, false);
-    player.addEventListener("timeupdate", checkPlayHead, false);
-    
-    var hashes = window.location.hash.substring(1).split('&');
-    var times = {};
-    for (i=0; i<hashes.length; i++) {
-      var x = hashes[i].split('=');
-      var y = parseFloat(x[1]);
-      if (!isNaN(y)) {
-        times[x[0]] = x[1];
-      }
-    }
-    
-    if (times['start']) {
-      if (times['end']) {
-        if (times['end'] > times['start']) {
-          end = times['end'];
-        }
-      }
-      player.currentTime = times['start'];
-      player.play();
-    }
-    
-  }
+  function init() {
+    var mels = document.querySelectorAll('[data-m]');
+    for (var i = 0; i < mels.length; ++i) {
+      var m = parseInt(mels[i].getAttribute('data-m'));
+      var p = mels[i].parentNode;
+      while (p !== document) {
+        if (p.tagName.toLowerCase() === 'p' || p.tagName.toLowerCase() === 'figure' || p.tagName.toLowerCase() === 'ul') {
+          break;
+        };
+        p = p.parentNode;
+      };
+      melarr[i] = { 'n': mels[i], 'm': m, 'p': p }
+    };
+
+    melarr.sort(function(a, b) { return a['m'] - b['m']; });
+
+    for (var i = 0; i < melarr.length; ++i) {
+      melarr[i].n.className = "unread";
+    };
+  };
 
   function setPlayHead(e) {
-    var target = (e.target) ? e.target : e.srcElement;
-    target.setAttribute("class", "active");
-    var timeSecs = parseInt(target.getAttribute("data-m"))/1000;
-    
-    if(!isNaN(parseFloat(timeSecs))) {
-      end = null;
-      player.currentTime = timeSecs;
+    var datam = parseInt(e.target.getAttribute("data-m"));
+
+    if (!isNaN(datam)) {
+      player.currentTime = datam / 1000;
       player.play();
-    }
-  }
+    };
+  };
 
   function checkPlayHead(e) {
-    
-    //check for end time of shared piece
-
-    if (end && (end < player.currentTime)) {
-      player.pause();
-      end = null;
-    }
-    
-    var activeitems = transcript.getElementsByClassName('active');
-    var activeitemsLength = activeitems.length;
-
-    for (var a = 0; a < activeitemsLength; a++) {
-      if (activeitems[a]) { // TODO: look into why we need this
-        activeitems[a].classList.remove("active");
-      }
-    }
-
-    // Establish current paragraph index
-
-    var currentParaIndex;
-
-    for (i = 1; i < words.length; i++) {
-      if (parseInt(words[i].getAttribute("data-m"))/1000 > player.currentTime) {
-
-        // TODO: look for a better way of doing this
-        var strayActive = transcript.getElementsByClassName('active')[0];
-        if (typeof(strayActive) != 'undefined') {
-          strayActive.classList.remove("active");
-        }
-
-        // word time is in the future - set the previous word as active.
-        words[i-1].classList.add("active");
-        words[i-1].parentNode.classList.add("active");
-
-        paras = transcript.getElementsByTagName('p');
-
-        for (a = 0; a < paras.length; a++) {
-
-          if (paras[a].classList.contains("active")) {
-            currentParaIndex = a;
-            break;
-          }
-        }
-
-        if (currentParaIndex != paraIndex) {
-
-          if (typeof(Velocity) == 'function') {
-            Velocity(words[i].parentNode, "scroll", { 
-              duration: 800,
-              delay: 0
-            });
-          }
-
-          paraIndex = currentParaIndex;
-        }
-
+    // binary search via http://stackoverflow.com/a/14370245
+    var l = 0, r = melarr.length - 1;
+    while (l <= r) {
+      var m = l + ((r - l) >> 1);
+      var comp = melarr[m].m / 1000 - player.currentTime;
+      if (comp < 0) // arr[m] comes before the element
+        l = m + 1;
+      else if (comp > 0) // arr[m] comes after the element
+        r = m - 1;
+      else { // this[m] equals the element
+        l = m;
         break;
-      }
-    }
-  }
+      };
+    };
+
+    for (var i = 0; i < l; ++i) {
+      melarr[i].n.className = "read";
+    };
+    for (var i = l; i < melarr.length; ++i) {
+      melarr[i].n.className = "unread";
+    };
+  };
 
   hal.init = function(transcriptId, mediaElementId) {
+    transcriptId = transcriptId;
     transcript = document.getElementById(transcriptId);
-    init(mediaElementId);
-  }
+    playerId = mediaElementId;
+    player = document.getElementById(playerId);
+    init();
+    player.addEventListener("timeupdate", checkPlayHead, false);
+    transcript.addEventListener("click", setPlayHead, false);
+  };
  
   return hal;
  
