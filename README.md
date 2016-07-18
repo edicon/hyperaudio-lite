@@ -66,6 +66,8 @@ hyperaudiolite.init('transcript', 'interview');
 
 There is absolutely no polyfilling or browser feature testing being done.  `querySelectorAll`, `addEventListener` and HTML5 audio/video are probably the things to check for if you care about those sorts of things.
 
+I've successfully used JoshData's `Aligner.java` to generate transcript timings using CMU Sphinx: https://github.com/JoshData/cmusphinx-alignment-example
+
 ## Future work
 
 - Adding optional playback controls
@@ -73,6 +75,7 @@ There is absolutely no polyfilling or browser feature testing being done.  `quer
 - Adding media fragments support
 - Adding an example where a large transcript gets remotely loaded via JavaScript
 - Adding an example with full browser feature detection and polyfilling
+- Adding a detailed walkthrough of using `Aligner.java`
 
 ## A note on testing
 
