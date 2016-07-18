@@ -8,17 +8,17 @@ hyperaudio-lite - lightweight JavaScript for presenting hypertranscripts
 
 Given:
 
-- a media element,
+- an HTML5 media element,
 - a transcript container element,
 - elements with `data-m` attributes specifying a media time value in milliseconds (e.g. `data-m="10000"` for 10 seconds in),
 - a CSS `.unread` style,
 - `hyperaudio-lite.js` included via a `<script>` tag,
-- calling `hyperaudiolite.init('transcript-element-id', 'media-element-id');` after the transcript and media element are on the page,
+- calling `hyperaudiolite.init('transcript-element-id', 'media-element-id');` after the transcript and media elements are on the page,
 
 then, this JavaScript will:
 
 - add the `.unread` class to every element with a `data-m` attribute;
-- as the media file plays, remove the `.unread` class on any elements after the current time, and apply a `.read` class;
+- as the media file plays, remove the `.unread` class on any elements before the current time, and apply a `.read` class;
 - listen for any clicks within the transcript container, and set the media file time to the time of the element being clicked on.
 
 That's it.  No scrolling, no excerpting, no media fragments, no restrictions on what elements work.  Works on any elements, as long as they have `data-m` attributes.
@@ -47,7 +47,8 @@ The minimum serviceable HTML looks like this:
 <div id="transcript">
 <p><span data-m="20">Hi </a><a data-m="400">and </a><a data-m="520">welcome </a><a data-m="840">to </a><a data-m="940">INSIGHT </a><a data-m="1260">intercom </a><a data-m="1690">today </span><span data-m="1880">I'm </a><a data-m="2010">joined </a><a data-m="2260">by </a><a data-m="2420">Sam </a><a data-m="2680">Mills </a><a data-m="2900">You </a><a data-m="3030">look </a><a data-m="3340">who </span><span data-m="3480">is </a><a data-m="3870">a </a><a data-m="4200">writer </a><a data-m="4700">and </a><a data-m="4980">founder </a><a data-m="5300">of </a><a data-m="5470">user </span><span data-m="5750">on </a><a data-m="5950">board </a><a data-m="6360">. </a><a data-m="7020">Thanks </a><a data-m="7180">so </a><a data-m="7250">much </a><a data-m="7400">for </a><a data-m="7590">joining </span><span data-m="7920">us </a><a data-m="8270">. </span></p>
 
-<ul><li><span data-m="8390">It </a><a data-m="8490">is </a><a data-m="8660">an </a><a data-m="8790">absolute </a><a data-m="9210">pleasure </span></li>
+<ul>
+<li><span data-m="8390">It </a><a data-m="8490">is </a><a data-m="8660">an </a><a data-m="8790">absolute </a><a data-m="9210">pleasure </span></li>
 <li><span data-m="9510">to </a><a data-m="9580">be </a><a data-m="9720">here </a><a data-m="10800">. </a><a data-m="11280">So </a><a data-m="11630">I </a><a data-m="11700">believe </a><a data-m="12310">most </span></li>
 <li><span data-m="12540">of </a><a data-m="12600">our </a><a data-m="12670">readers </a><a data-m="12980">be </a><a data-m="13100">pretty </a><a data-m="13290">familiar </a><a data-m="13790">a </span></li>
 <li><span data-m="13870">lot </a><a data-m="14040">of </a><a data-m="14120">your </a><a data-m="14250">work </a><a data-m="14740">. </span></li>
